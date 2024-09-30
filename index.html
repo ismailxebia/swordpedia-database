@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Grid</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="layout-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="logo">
+                <!-- Logo untuk desktop -->
+                <img src="./assets/ic-logo.svg" alt="Logo" class="logo-desktop">
+                <!-- Logo untuk mobile -->
+                <img src="./assets/ic-logo-symbol.svg" alt="Logo Symbol" class="logo-mobile">
+            </div>
+            <ul>
+                <li><a href="#" class="nav-item" data-page="card-database">
+                    <img class="nav-icon idle" src="./assets/nav-card-idle.svg" alt="Card Icon Idle">
+                    <img class="nav-icon active" src="./assets/nav-card-active.svg" alt="Card Icon Active" style="display:none;">
+                    <span class="nav-text idle">Card Database</span>
+                </a></li>
+                <li><a href="#" class="nav-item" data-page="shops">
+                    <img class="nav-icon idle" src="./assets/nav-money-idle.svg" alt="Shops Icon Idle">
+                    <img class="nav-icon active" src="./assets/nav-money-active.svg" alt="Shops Icon Active" style="display:none;">
+                    <span class="nav-text idle">Shops</span>
+                </a></li>
+                <!-- Other nav items -->
+            </ul>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="content" id="content-area">
+            <!-- Header Section -->
+            <header class="header">
+                <button class="hamburger" id="hamburger">&#9776;</button>
+                <h1 id="page-title">Card Database</h1> <!-- This title will change dynamically -->
+                <div class="header-icons">
+                    <button class="icon-btn">🔖</button>
+                    <button class="icon-btn">🔍</button>
+                </div>
+            </header>
+
+            <!-- Content will load dynamically here -->
+            <div id="page-content"></div>
+        </main>
+    </div>
+    <script src="js/script.js"></script>
+</body>
+</html>
