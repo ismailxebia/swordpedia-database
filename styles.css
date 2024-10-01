@@ -46,11 +46,8 @@ body {
 
 .sidebar .logo {
   display: flex;
-  /* Enable flexbox */
   justify-content: start;
-  /* Horizontal centering */
   align-items: center;
-  /* Vertical centering */
   padding-top: 15px;
   padding-bottom: 15px;
   padding-left: 16px;
