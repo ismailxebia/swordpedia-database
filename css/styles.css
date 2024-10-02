@@ -8,7 +8,7 @@
 }
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Archivo', sans-serif;
   background-color: #FFFFFF;
 }
 
@@ -227,6 +227,7 @@ body {
   background: transparent;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  font-family: 'Archivo', sans-serif;
 }
 
 .filter-button .badge {
@@ -238,6 +239,8 @@ body {
   font-size: 12px;
   /* Slightly smaller for the badge */
   margin-right: 8px;
+  font-family: 'Archivo', sans-serif;
+  font-weight: 700;
 }
 
 .filter-button .title {
