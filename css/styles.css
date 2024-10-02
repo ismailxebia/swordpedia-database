@@ -47,12 +47,9 @@ body {
 .sidebar .logo {
   display: flex;
   /* Enable flexbox */
-  justify-content: start;
-  /* Horizontal centering */
   align-items: center;
-  /* Vertical centering */
-  padding-top: 15px;
-  padding-bottom: 15px;
+  padding-top: 1.32rem;
+  padding-bottom: 1.32rem;
   padding-left: 16px;
 }
 
@@ -188,18 +185,12 @@ body {
 
 .header-icons {
   display: flex;
-  gap: 16px;
-}
-
-.header-icons .icon-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 20px;
+  gap: 8px;
 }
 
 /* Filter Section */
 .filter {
+  width: 100%; /* Mengisi seluruh lebar container */
   display: flex;
   justify-content: flex-start;
   gap: 8px;
@@ -207,11 +198,9 @@ body {
   padding: 12px 16px;
   margin-bottom: 0px;
   overflow-x: auto;
-  /* Allows horizontal scrolling */
   white-space: nowrap;
-  /* Prevents content wrapping */
   -webkit-overflow-scrolling: touch;
-  /* Smooth scrolling on mobile devices */
+  flex-wrap: nowrap;
 }
 
 /* Hide scrollbar for Webkit browsers (Chrome, Safari) */
@@ -355,18 +344,12 @@ body {
   /* Narrow sidebar, initially hidden off-screen */
   .sidebar {
     width: 60px;
-    /* Narrower sidebar for mobile */
     transform: translateX(-60px);
-    /* Slide-out effect (hidden) */
     transition: transform 0.3s ease;
-    /* Smooth transition */
     position: fixed;
-    /* Sidebar should not push content */
     top: 0;
     height: 100vh;
-    /* Ensure sidebar takes up full height */
     z-index: 1000;
-    /* Above content */
   }
 
   /* Sidebar open state (slide in) */
@@ -385,7 +368,7 @@ body {
 
   .sidebar .logo {
     display: flex;
-    padding: 6px 12px;
+    padding: 0.68rem 1rem;
     justify-content: center;
     align-items: center;
   }
@@ -453,4 +436,29 @@ body {
 /* Open sidebar for mobile */
 .sidebar.open {
   display: block;
+}
+
+.icon-btn {
+  border-radius: 50%;
+  border: 1px solid #D0D0D0;
+  background: transparent;
+  padding: 12px;
+  width: 38px; /* 20px icon + 12px padding on both sides */
+  height: 38px; /* 20px icon + 12px padding on both sides */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* Hover state for the icon buttons */
+.icon-btn:hover {
+  background-color: #f4f4f4;
+  border-color: #cccccc;
+}
+
+/* Styling for the icons inside the buttons */
+.icon-btn img {
+  width: 18px;
+  height: 18px;
 }
