@@ -35,10 +35,11 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(html => {
                 contentArea.innerHTML = html; // Replace content area with new page
                 pageTitle.textContent = page.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-                
+
                 // After loading the page, display cards if on card-database page
                 if (page === 'card-database') {
                     displayCards(); // Call the function to display cards
+                    loadFilters();  // Load filters dynamically from Airtable
                 }
             })
             .catch(error => {
@@ -114,9 +115,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fungsi untuk mengambil data dari Airtable dan menampilkan kartu di grid
     const baseId = 'appTB3JrYRqa7nDw2';  // Base ID Airtable Anda
     const tableId = 'tbl1XJpKap5R06IFU';  // Table ID dari tabel Anda
+    const filterTableId = 'tbl8CiUaI5ltH4ftB';  // Table ID untuk filters
     const airtableApiKey = 'pat98guwqXUUe67Pg.e781f754561ceb8a97f6875a3040d35df76a52c4c3df92db4b3a5bce7395e796';  // Personal Access Token (PAT) Anda
 
     const airtableBaseUrl = `https://api.airtable.com/v0/${baseId}/${tableId}`;  // URL API untuk Airtable
+    const airtableFilterUrl = `https://api.airtable.com/v0/${baseId}/${filterTableId}`;  // URL API untuk filters
 
     // Fungsi untuk mengambil data dari Airtable
     async function fetchCardData() {
@@ -135,6 +138,79 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error('Error fetching data from Airtable:', error);  // Log jika terjadi error
         }
+    }
+
+    // Fungsi untuk mengambil data filters dari Airtable
+    async function loadFilters() {
+        try {
+            const response = await fetch(airtableFilterUrl, {
+                headers: {
+                    Authorization: `Bearer ${airtableApiKey}`
+                }
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            console.log("Filters fetched from Airtable:", data);  // Log data dari Airtable
+            displayFilters(data.records); // Menampilkan filter yang diambil
+        } catch (error) {
+            console.error('Error fetching filter data from Airtable:', error);
+        }
+    }
+
+    // Fungsi untuk menampilkan filters di UI
+    function displayFilters(filters) {
+        const filterContainer = document.querySelector('.filter'); // Select container filter
+        filterContainer.innerHTML = '';  // Clear previous filters
+
+        // Looping untuk setiap filter dan tampilkan
+        filters.forEach(filter => {
+            const filterButton = document.createElement('button');
+            filterButton.classList.add('filter-button', 'idle');
+            
+            const seriesName = filter.fields['Series Name'];
+            const totalCard = filter.fields['Total Card'];
+
+            filterButton.innerHTML = `
+                <span class="title">${seriesName}</span>
+                <span class="divider"></span>
+                <span class="total">${totalCard}</span>
+            `;
+            
+            if (seriesName === 'NEW') {
+                const badge = document.createElement('span');
+                badge.classList.add('badge');
+                badge.textContent = 'NEW';
+                filterButton.prepend(badge);  // Add badge if series is new
+            }
+
+            // Tambahkan tombol filter ke dalam filter container
+            filterContainer.appendChild(filterButton);
+        });
+
+        // After filters are loaded, add event listener for filter functionality
+        handleFilterClick();
+    }
+
+    // Fungsi untuk handle single selection pada filter button
+    function handleFilterClick() {
+        const filterButtons = document.querySelectorAll('.filter-button');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Jika tombol ini sudah active, hapus state active
+                if (this.classList.contains('active')) {
+                    this.classList.remove('active');
+                } else {
+                    // Hapus state active dari semua tombol filter
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+
+                    // Set tombol yang diklik menjadi active
+                    this.classList.add('active');
+                }
+            });
+        });
     }
 
     // Fungsi untuk menampilkan gambar kartu di grid
