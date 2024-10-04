@@ -431,6 +431,12 @@ body {
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 8px;
   }
+
+  .grid-container.skeleton {
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 8px;
+  }
+  
 }
 
 /* Open sidebar for mobile */
@@ -462,4 +468,51 @@ body {
 .icon-btn img {
   width: 18px;
   height: 18px;
+}
+
+/* Shimmer effect keyframes */
+@keyframes shimmer {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+}
+
+/* Skeleton card styles */
+.skeleton-card {
+  width: 100%;
+  aspect-ratio: 128 / 168; /* Sama seperti card */
+  background-color: #f6f7f8;
+  background-image: linear-gradient(
+    to right,
+    #f6f7f8 0%,
+    #e0e0e0 20%,
+    #f6f7f8 40%,
+    #f6f7f8 100%
+  );
+  background-repeat: no-repeat;
+  background-size: 800px 800px;
+  display: inline-block;
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  animation: shimmer 1.2s infinite linear;
+}
+
+/* Optionally, for a better loading experience, you can add a shimmer animation delay for multiple skeletons */
+.skeleton-card:nth-child(1) {
+  animation-delay: 0.2s;
+}
+.skeleton-card:nth-child(2) {
+  animation-delay: 0.4s;
+}
+.skeleton-card:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+/* Make the grid align skeletons just like it aligns real cards */
+.grid-container.skeleton {
+  grid-template-columns: repeat(auto-fit, minmax(162px, 1fr));
 }

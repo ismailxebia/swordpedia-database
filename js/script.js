@@ -139,42 +139,55 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Fungsi untuk menampilkan gambar kartu di grid
     async function displayCards() {
-        const cards = await fetchCardData();  // Ambil data dari Airtable
-        console.log("Cards data:", cards);  // Log data kartu yang diambil
-
         const gridContainer = document.querySelector('.grid-container');  // Ambil container grid
-
+    
+        // Tampilkan skeleton cards terlebih dahulu
+        gridContainer.innerHTML = '';  // Kosongkan grid
+        gridContainer.classList.add('skeleton'); // Tambahkan kelas skeleton ke grid container
+    
+        // Tambahkan beberapa skeleton card untuk efek loading
+        for (let i = 0; i < 6; i++) {  // Menampilkan 6 skeleton sebagai contoh
+            const skeletonElement = document.createElement('div');
+            skeletonElement.classList.add('skeleton-card');
+            gridContainer.appendChild(skeletonElement);
+        }
+    
+        // Ambil data dari Airtable
+        const cards = await fetchCardData();  
+        console.log("Cards data:", cards);  
+    
+        // Hapus skeleton dan tampilkan data asli jika ada
+        gridContainer.classList.remove('skeleton');  // Hapus kelas skeleton
+        gridContainer.innerHTML = '';  // Kosongkan kembali untuk menampilkan data kartu
+    
         // Pastikan cards ada dan bukan array kosong
         if (!cards || cards.length === 0) {
             console.log("No cards found or data is empty.");
             gridContainer.innerHTML = '<p>No cards available.</p>';  // Tampilkan pesan jika tidak ada kartu
             return;
         }
-
-        // Kosongkan konten grid yang sudah ada
-        gridContainer.innerHTML = '';
-
+    
         // Looping untuk setiap kartu dan tambahkan ke grid
         cards.forEach(card => {
             const cardElement = document.createElement('div');
             cardElement.classList.add('card');
-
+    
             // Ambil gambar kartu dari field "Image Card" (URL)
-            const cardImageUrl = card.fields['Image Card'];  // Ganti dengan nama field di Airtable
-            console.log("Card Image URL:", cardImageUrl);  // Log URL gambar untuk debug
-
+            const cardImageUrl = card.fields['Image Card'];
+            console.log("Card Image URL:", cardImageUrl);
+    
             // Jika URL gambar ada, tambahkan gambar ke dalam elemen kartu
             if (cardImageUrl) {
                 const imgElement = document.createElement('img');
                 imgElement.src = cardImageUrl;
-                imgElement.alt = "Card Image";  // Optional: text alt untuk image
+                imgElement.alt = "Card Image";
                 cardElement.appendChild(imgElement);
             } else {
-                console.warn("No image found for card:", card);  // Log jika gambar tidak ditemukan
+                console.warn("No image found for card:", card);  
             }
-
+    
             // Tambahkan kartu ke grid
             gridContainer.appendChild(cardElement);
         });
-    }
+    }    
 });
