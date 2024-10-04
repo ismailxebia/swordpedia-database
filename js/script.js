@@ -121,6 +121,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const airtableBaseUrl = `https://api.airtable.com/v0/${baseId}/${tableId}`;  // URL API untuk Airtable
     const airtableFilterUrl = `https://api.airtable.com/v0/${baseId}/${filterTableId}`;  // URL API untuk filters
 
+    let filteredSeriesName = null;  // Simpan nama filter aktif saat ini
+
     // Fungsi untuk mengambil data dari Airtable
     async function fetchCardData() {
         try {
@@ -187,83 +189,98 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Tambahkan tombol filter ke dalam filter container
             filterContainer.appendChild(filterButton);
-        });
 
-        // After filters are loaded, add event listener for filter functionality
-        handleFilterClick();
-    }
-
-    // Fungsi untuk handle single selection pada filter button
-    function handleFilterClick() {
-        const filterButtons = document.querySelectorAll('.filter-button');
-
-        filterButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                // Jika tombol ini sudah active, hapus state active
-                if (this.classList.contains('active')) {
-                    this.classList.remove('active');
+            // Tambahkan event listener untuk klik pada tombol filter
+            filterButton.addEventListener('click', function () {
+                // Jika sudah aktif, batalkan pilihan
+                if (filterButton.classList.contains('active')) {
+                    filterButton.classList.remove('active');
+                    filteredSeriesName = null;  // Set kembali ke null jika tidak ada filter yang aktif
                 } else {
-                    // Hapus state active dari semua tombol filter
-                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    // Nonaktifkan semua filter
+                    const allFilterButtons = document.querySelectorAll('.filter-button');
+                    allFilterButtons.forEach(btn => btn.classList.remove('active'));
 
-                    // Set tombol yang diklik menjadi active
-                    this.classList.add('active');
+                    // Aktifkan filter yang diklik
+                    filterButton.classList.add('active');
+                    filteredSeriesName = seriesName;  // Set filter aktif ke nama series ini
                 }
+
+                // Setelah filter diubah, panggil kembali displayCards untuk menerapkan filter
+                displayCards();
             });
         });
     }
 
-    // Fungsi untuk menampilkan gambar kartu di grid
-    async function displayCards() {
-        const gridContainer = document.querySelector('.grid-container');  // Ambil container grid
-    
-        // Tampilkan skeleton cards terlebih dahulu
-        gridContainer.innerHTML = '';  // Kosongkan grid
-        gridContainer.classList.add('skeleton'); // Tambahkan kelas skeleton ke grid container
-    
-        // Tambahkan beberapa skeleton card untuk efek loading
-        for (let i = 0; i < 6; i++) {  // Menampilkan 6 skeleton sebagai contoh
-            const skeletonElement = document.createElement('div');
-            skeletonElement.classList.add('skeleton-card');
-            gridContainer.appendChild(skeletonElement);
-        }
-    
-        // Ambil data dari Airtable
-        const cards = await fetchCardData();  
-        console.log("Cards data:", cards);  
-    
-        // Hapus skeleton dan tampilkan data asli jika ada
-        gridContainer.classList.remove('skeleton');  // Hapus kelas skeleton
-        gridContainer.innerHTML = '';  // Kosongkan kembali untuk menampilkan data kartu
-    
-        // Pastikan cards ada dan bukan array kosong
-        if (!cards || cards.length === 0) {
-            console.log("No cards found or data is empty.");
-            gridContainer.innerHTML = '<p>No cards available.</p>';  // Tampilkan pesan jika tidak ada kartu
-            return;
-        }
-    
-        // Looping untuk setiap kartu dan tambahkan ke grid
-        cards.forEach(card => {
-            const cardElement = document.createElement('div');
-            cardElement.classList.add('card');
-    
-            // Ambil gambar kartu dari field "Image Card" (URL)
-            const cardImageUrl = card.fields['Image Card'];
-            console.log("Card Image URL:", cardImageUrl);
-    
-            // Jika URL gambar ada, tambahkan gambar ke dalam elemen kartu
-            if (cardImageUrl) {
-                const imgElement = document.createElement('img');
-                imgElement.src = cardImageUrl;
-                imgElement.alt = "Card Image";
-                cardElement.appendChild(imgElement);
-            } else {
-                console.warn("No image found for card:", card);  
-            }
-    
-            // Tambahkan kartu ke grid
-            gridContainer.appendChild(cardElement);
+// Fungsi untuk menampilkan gambar kartu di grid
+async function displayCards() {
+    const gridContainer = document.querySelector('.grid-container');  // Ambil container grid
+
+    // Tampilkan skeleton cards terlebih dahulu
+    gridContainer.innerHTML = '';  // Kosongkan grid
+    gridContainer.classList.add('skeleton'); // Tambahkan kelas skeleton ke grid container
+
+    // Tambahkan beberapa skeleton card untuk efek loading
+    for (let i = 0; i < 5; i++) {  // Menampilkan 6 skeleton sebagai contoh
+        const skeletonElement = document.createElement('div');
+        skeletonElement.classList.add('skeleton-card');
+        gridContainer.appendChild(skeletonElement);
+    }
+
+    // Ambil data dari Airtable
+    const cards = await fetchCardData();  
+    console.log("Cards data:", cards);  
+
+    // Hapus skeleton dan tampilkan data asli jika ada
+    gridContainer.classList.remove('skeleton');  // Hapus kelas skeleton
+    gridContainer.innerHTML = '';  // Kosongkan kembali untuk menampilkan data kartu
+
+    // Pastikan cards ada dan bukan array kosong
+    if (!cards || cards.length === 0) {
+        console.log("No cards found or data is empty.");
+        gridContainer.innerHTML = '<p>No cards available.</p>';  // Tampilkan pesan jika tidak ada kartu
+        return;
+    }
+
+    // Jika ada filter aktif, filter kartu sesuai Card Series Name
+    let filteredCards = cards;
+    if (filteredSeriesName) {
+        filteredCards = cards.filter(card => {
+            const seriesName = card.fields['Card Series Name'] ? card.fields['Card Series Name'][0] : null;  // Ambil nilai pertama dari array 'Card Series Name'
+            console.log("Series Name from card:", seriesName);
+            return seriesName === filteredSeriesName;  // Bandingkan dengan filter yang aktif
         });
-    }    
+    }
+    console.log("Filtered cards:", filteredCards);
+
+    // Jika tidak ada kartu yang cocok dengan filter
+    if (filteredCards.length === 0) {
+        gridContainer.innerHTML = '<p>No cards available for this series.</p>';
+        return;
+    }
+
+    // Looping untuk setiap kartu dan tambahkan ke grid
+    filteredCards.forEach(card => {
+        const cardElement = document.createElement('div');
+        cardElement.classList.add('card');
+
+        // Ambil gambar kartu dari field "Image Card" (URL)
+        const cardImageUrl = card.fields['Image Card'];
+        console.log("Card Image URL:", cardImageUrl);
+
+        // Jika URL gambar ada, tambahkan gambar ke dalam elemen kartu
+        if (cardImageUrl) {
+            const imgElement = document.createElement('img');
+            imgElement.src = cardImageUrl;
+            imgElement.alt = "Card Image";
+            cardElement.appendChild(imgElement);
+        } else {
+            console.warn("No image found for card:", card);  
+        }
+
+        // Tambahkan kartu ke grid
+        gridContainer.appendChild(cardElement);
+    });
+}
+
 });

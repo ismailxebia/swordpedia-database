@@ -313,7 +313,8 @@ body {
 .grid-container {
   background-color: #FFFFFF;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(162px, 1fr));
+  grid-template-columns: repeat(5, minmax(162px, 1fr));
+  /*grid-template-columns: repeat(auto-fit, minmax(162px, 1fr));*/
   grid-gap: 8px;
   padding: 0px 8px 8px 8px;
 }
