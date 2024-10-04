@@ -318,11 +318,7 @@ body {
   background-color: #000000;
   border-radius: 8px;
   overflow: hidden;
-  opacity: 0;
-  /* Mulai dari tidak terlihat */
-  transform: translateY(50px);
-  /* Mulai dari posisi agak di bawah */
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  opacity: 1;
 }
 
 .card.show {
