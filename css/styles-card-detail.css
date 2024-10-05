@@ -40,7 +40,7 @@ body {
 
 .title-text h1 {
     margin: 0;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 /* Sub Header Info for Card Type and Rarity */
@@ -49,7 +49,7 @@ body {
     align-items: center;
     gap: 8px;
     color: #666;
-    font-size: 16px;
+    font-size: 14px;
     margin-top: 4px;
 }
 
@@ -127,8 +127,7 @@ body {
 .card-image {
     max-width: 322px;
     height: auto;
-    border: 1px solid #ccc;
-    border-radius: 8px;
+    border-radius: 12px;
 }
 
 .card-info {
