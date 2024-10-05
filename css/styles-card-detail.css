@@ -1,0 +1,162 @@
+/* Basic layout styles */
+body {
+    font-family: 'Archivo', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 68px;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 16px;
+    border-bottom: 1px solid #e5e5e5;
+    z-index: 1000;
+}
+
+.back-button {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.header-title {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-left: 16px;
+    align-items: center;
+}
+
+.title-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.title-text h1 {
+    margin: 0;
+    font-size: 18px;
+}
+
+/* Sub Header Info for Card Type and Rarity */
+.sub-header-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #666;
+    font-size: 16px;
+    margin-top: 4px;
+}
+
+.sub-header-info .dot {
+    font-size: 18px;
+    color: #999;
+}
+
+
+.header-icons {
+    display: flex;
+    gap: 8px;
+}
+
+.icon-btn {
+    border-radius: 50%;
+    border: 1px solid #D0D0D0;
+    background: transparent;
+    padding: 12px;
+    width: 38px; /* 20px icon + 12px padding on both sides */
+    height: 38px; /* 20px icon + 12px padding on both sides */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  /* Hover state for the icon buttons */
+  .icon-btn:hover {
+    background-color: #f4f4f4;
+    border-color: #cccccc;
+  }
+  
+  /* Styling for the icons inside the buttons */
+  .icon-btn img {
+    width: 18px;
+    height: 18px;
+  }
+
+.content {
+    margin-top: 60px; /* Leave space for the fixed header */
+    padding: 16px;
+}
+
+.series-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.series-icon img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    margin-right: 12px;
+}
+
+.series-details {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.card-image-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 16px 0;
+}
+
+.card-image {
+    max-width: 322px;
+    height: auto;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.card-info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.info-block {
+    flex-basis: 45%;
+    margin-bottom: 16px;
+}
+
+.info-block h3 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.info-block p {
+    font-size: 16px;
+    color: #666;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .info-block {
+        flex-basis: 100%;
+    }
+}

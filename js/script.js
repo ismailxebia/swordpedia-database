@@ -212,75 +212,81 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-// Fungsi untuk menampilkan gambar kartu di grid
-async function displayCards() {
-    const gridContainer = document.querySelector('.grid-container');  // Ambil container grid
+    // Fungsi untuk menampilkan gambar kartu di grid
+    async function displayCards() {
+        const gridContainer = document.querySelector('.grid-container');  // Ambil container grid
+    
+        // Tampilkan skeleton cards terlebih dahulu
+        gridContainer.innerHTML = '';
+        gridContainer.classList.add('skeleton'); // Tambahkan kelas skeleton ke grid container
+    
+        // Tambahkan beberapa skeleton card untuk efek loading
+        for (let i = 0; i < 6; i++) {  // Menampilkan 6 skeleton sebagai contoh
+            const skeletonElement = document.createElement('div');
+            skeletonElement.classList.add('skeleton-card');
+            gridContainer.appendChild(skeletonElement);
+        }
+    
+        // Ambil data dari Airtable
+        const cards = await fetchCardData();  
+        console.log("Cards data:", cards);  
+    
+        // Hapus skeleton dan tampilkan data asli jika ada
+        gridContainer.classList.remove('skeleton');  // Hapus kelas skeleton
+        gridContainer.innerHTML = '';  // Kosongkan kembali untuk menampilkan data kartu
+    
+        // Pastikan cards ada dan bukan array kosong
+        if (!cards || cards.length === 0) {
+            console.log("No cards found or data is empty.");
+            gridContainer.innerHTML = '<p>No cards available.</p>';  // Tampilkan pesan jika tidak ada kartu
+            return;
+        }
+    
+        // Jika ada filter aktif, filter kartu sesuai Card Series
+        let filteredCards = cards;
+        if (filteredSeriesName) {
+            filteredCards = cards.filter(card => {
+                const seriesName = card.fields['Card Series Name'] ? card.fields['Card Series Name'][0] : null;
+                console.log("Series Name from card:", seriesName);
+                return seriesName === filteredSeriesName;
+            });
+        }
+        console.log("Filtered cards:", filteredCards);
+    
+        // Jika tidak ada kartu yang cocok dengan filter
+        if (filteredCards.length === 0) {
+            gridContainer.innerHTML = '<p>No cards available for this series.</p>';
+            return;
+        }
+    
+        // Looping untuk setiap kartu dan tambahkan ke grid
+        filteredCards.forEach(card => {
+            const cardElement = document.createElement('div');
+            cardElement.classList.add('card');
+    
+            // Ambil gambar kartu dari field "Image Card" (URL)
+            const cardImageUrl = card.fields['Image Card'];
+            const cardId = card.id; // Dapatkan ID kartu
+            console.log("Card Image URL:", cardImageUrl);
+    
+            // Jika URL gambar ada, tambahkan gambar ke dalam elemen kartu
+            if (cardImageUrl) {
+                const imgElement = document.createElement('img');
+                imgElement.src = cardImageUrl;
+                imgElement.alt = "Card Image";
+                cardElement.appendChild(imgElement);
+            } else {
+                console.warn("No image found for card:", card);  
+            }
 
-    // Tampilkan skeleton cards terlebih dahulu
-    gridContainer.innerHTML = '';  // Kosongkan grid
-    gridContainer.classList.add('skeleton'); // Tambahkan kelas skeleton ke grid container
-
-    // Tambahkan beberapa skeleton card untuk efek loading
-    for (let i = 0; i < 5; i++) {  // Menampilkan 6 skeleton sebagai contoh
-        const skeletonElement = document.createElement('div');
-        skeletonElement.classList.add('skeleton-card');
-        gridContainer.appendChild(skeletonElement);
-    }
-
-    // Ambil data dari Airtable
-    const cards = await fetchCardData();  
-    console.log("Cards data:", cards);  
-
-    // Hapus skeleton dan tampilkan data asli jika ada
-    gridContainer.classList.remove('skeleton');  // Hapus kelas skeleton
-    gridContainer.innerHTML = '';  // Kosongkan kembali untuk menampilkan data kartu
-
-    // Pastikan cards ada dan bukan array kosong
-    if (!cards || cards.length === 0) {
-        console.log("No cards found or data is empty.");
-        gridContainer.innerHTML = '<p>No cards available.</p>';  // Tampilkan pesan jika tidak ada kartu
-        return;
-    }
-
-    // Jika ada filter aktif, filter kartu sesuai Card Series Name
-    let filteredCards = cards;
-    if (filteredSeriesName) {
-        filteredCards = cards.filter(card => {
-            const seriesName = card.fields['Card Series Name'] ? card.fields['Card Series Name'][0] : null;  // Ambil nilai pertama dari array 'Card Series Name'
-            console.log("Series Name from card:", seriesName);
-            return seriesName === filteredSeriesName;  // Bandingkan dengan filter yang aktif
+            // Tambahkan event listener pada setiap cardElement untuk navigasi ke card-detail.html dengan ID kartu
+            cardElement.addEventListener('click', function() {
+                window.location.href = `./card-detail.html?id=${cardId}`;
+            });
+    
+            // Tambahkan kartu ke grid
+            gridContainer.appendChild(cardElement);
         });
     }
-    console.log("Filtered cards:", filteredCards);
-
-    // Jika tidak ada kartu yang cocok dengan filter
-    if (filteredCards.length === 0) {
-        gridContainer.innerHTML = '<p>No cards available for this series.</p>';
-        return;
-    }
-
-    // Looping untuk setiap kartu dan tambahkan ke grid
-    filteredCards.forEach(card => {
-        const cardElement = document.createElement('div');
-        cardElement.classList.add('card');
-
-        // Ambil gambar kartu dari field "Image Card" (URL)
-        const cardImageUrl = card.fields['Image Card'];
-        console.log("Card Image URL:", cardImageUrl);
-
-        // Jika URL gambar ada, tambahkan gambar ke dalam elemen kartu
-        if (cardImageUrl) {
-            const imgElement = document.createElement('img');
-            imgElement.src = cardImageUrl;
-            imgElement.alt = "Card Image";
-            cardElement.appendChild(imgElement);
-        } else {
-            console.warn("No image found for card:", card);  
-        }
-
-        // Tambahkan kartu ke grid
-        gridContainer.appendChild(cardElement);
-    });
-}
 
 });

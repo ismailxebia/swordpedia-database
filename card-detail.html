@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Detail</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles-card-detail.css"> <!-- Card detail-specific CSS -->
+</head>
+<body>
+    <!-- Fixed Header -->
+    <div class="header">
+        <button class="back-button icon-btn">
+            <img src="./assets/ic-action-arrow-left.svg" alt="Back">
+        </button>
+        <div class="header-title">
+            <div class="title-text">
+                <h1 id="weapon-name"></h1>
+                <div class="sub-header-info">
+                    <span id="card-type"></span>
+                    <span class="dot">•</span>
+                    <span id="rarity"></span>
+                </div>
+            </div>
+            <div class="header-icons">
+                <button class="icon-btn">
+                    <img src="./assets/ic-action-bookmark.svg" alt="Bookmark">
+                </button>
+                <button class="icon-btn">
+                    <img src="./assets/ic-action-share.svg" alt="Share">
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scrollable Content -->
+    <div class="content">
+        <!-- Series Section -->
+        <div class="series-section">
+            <div class="series-icon">
+                <img src="../assets/series-icon.png" alt="Series Icon">
+            </div>
+            <div class="series-details">
+                <span id="series-name"></span>
+                <span id="card-number"></span>
+            </div>
+        </div>
+
+        <!-- Card Image -->
+        <div class="card-image-container">
+            <img src="../assets/card-image.png" alt="Card Image" class="card-image" id="card-image">
+        </div>
+
+        <!-- Card Info -->
+        <div class="card-info">
+            <div class="info-block">
+                <h3>Weapon Name</h3>
+                <p id="weapon-name-title">-</p>
+            </div>
+            <div class="info-block">
+                <h3>Rarity</h3>
+                <p id="rarity">-</p>
+            </div>
+            <div class="info-block">
+                <h3>Card Type</h3>
+                <p id="card-type">-</p>
+            </div>
+            <div class="info-block">
+                <h3>Element</h3>
+                <p id="element">-</p>
+            </div>
+            <div class="info-block">
+                <h3>Action</h3>
+                <p id="action">-</p>
+            </div>
+            <div class="info-block">
+                <h3>Card Action Point</h3>
+                <p id="action-point">-</p>
+            </div>
+            <div class="info-block">
+                <h3>Location</h3>
+                <p id="location">-</p>
+            </div>
+            <div class="info-block">
+                <h3>Abilities</h3>
+                <p id="abilities">-</p>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="../js/script-card-detail.js"></script>
+</body>
+</html>
