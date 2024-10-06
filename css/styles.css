@@ -182,6 +182,12 @@ body {
 .header .hamburger {
   margin-right: 12px;
   display: none;
+  padding: 0
+}
+
+.header .hamburger img {
+    width: 18px; /* Atur sesuai ukuran yang diinginkan */
+    height: 18px; /* Atur sesuai ukuran yang diinginkan */
 }
 
 .header-icons {
@@ -191,7 +197,8 @@ body {
 
 /* Filter Section */
 .filter {
-  width: 100%; /* Mengisi seluruh lebar container */
+  width: 100%;
+  /* Mengisi seluruh lebar container */
   display: flex;
   justify-content: flex-start;
   gap: 8px;
@@ -247,7 +254,8 @@ body {
 .filter-button .title {
   font-weight: 500;
   margin-right: 8px;
-  color: #000000; /* Warna teks default */
+  color: #000000;
+  /* Warna teks default */
 }
 
 .filter-button .divider {
@@ -313,7 +321,7 @@ body {
 .grid-container {
   background-color: #FFFFFF;
   display: grid;
-  grid-template-columns: repeat(5, minmax(162px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(162px, 1fr));
   /*grid-template-columns: repeat(auto-fit, minmax(162px, 1fr));*/
   grid-gap: 8px;
   padding: 0px 8px 8px 8px;
@@ -321,7 +329,8 @@ body {
 
 .card {
   width: 100%;
-  aspect-ratio: 128 / 168; /* Rasio aspek dari card sesuai gambar */
+  aspect-ratio: 128 / 168;
+  /* Rasio aspek dari card sesuai gambar */
   background-color: #000000;
   border-radius: 8px;
   overflow: hidden;
@@ -379,7 +388,7 @@ body {
     justify-content: center;
     align-items: center;
   }
-  
+
   .logo img {
     width: 110px;
     height: auto;
@@ -401,11 +410,23 @@ body {
   /* Show hamburger icon on mobile */
   .header .hamburger {
     display: block;
-    font-size: 24px;
-    background: none;
-    border: none;
+    border-radius: 50%;
+    border: 1px solid #D0D0D0;
+    background: transparent;
+    padding: 0px;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
   }
+
+  .header .hamburger img {
+    width: 18px; /* Atur sesuai ukuran yang diinginkan */
+    height: 18px; /* Atur sesuai ukuran yang diinginkan */
+}
 
   /* Ketika sidebar tertutup, margin-left dihilangkan */
   .content {
@@ -443,7 +464,7 @@ body {
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 8px;
   }
-  
+
 }
 
 /* Open sidebar for mobile */
@@ -455,9 +476,9 @@ body {
   border-radius: 50%;
   border: 1px solid #D0D0D0;
   background: transparent;
-  padding: 12px;
-  width: 38px; /* 20px icon + 12px padding on both sides */
-  height: 38px; /* 20px icon + 12px padding on both sides */
+  padding: 8px;
+  width: 38px;
+  height: 38px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -482,6 +503,7 @@ body {
   0% {
     background-position: -468px 0;
   }
+
   100% {
     background-position: 468px 0;
   }
@@ -490,15 +512,14 @@ body {
 /* Skeleton card styles */
 .skeleton-card {
   width: 100%;
-  aspect-ratio: 128 / 168; /* Sama seperti card */
+  aspect-ratio: 128 / 168;
+  /* Sama seperti card */
   background-color: #f6f7f8;
-  background-image: linear-gradient(
-    to right,
-    #f6f7f8 0%,
-    #e0e0e0 20%,
-    #f6f7f8 40%,
-    #f6f7f8 100%
-  );
+  background-image: linear-gradient(to right,
+      #f6f7f8 0%,
+      #e0e0e0 20%,
+      #f6f7f8 40%,
+      #f6f7f8 100%);
   background-repeat: no-repeat;
   background-size: 800px 800px;
   display: inline-block;
@@ -512,9 +533,11 @@ body {
 .skeleton-card:nth-child(1) {
   animation-delay: 0.2s;
 }
+
 .skeleton-card:nth-child(2) {
   animation-delay: 0.4s;
 }
+
 .skeleton-card:nth-child(3) {
   animation-delay: 0.6s;
 }

@@ -99,6 +99,14 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('series-name').textContent = cardFields['Card Series Name'] || 'N/A';
         document.getElementById('card-number').textContent = `${cardFields['Card No'] || 'N/A'} / ${cardFields['Total Card'] || 'N/A'}`;
 
+        // Set the Icon Series
+        const seriesIconUrl = cardFields['Icon Series'];
+        if (seriesIconUrl) {
+            document.getElementById('icon-series').src = seriesIconUrl;
+        } else {
+            document.getElementById('icon-series').src = '../assets/placeholder-image.png'; // Placeholder jika tidak ada gambar
+        }
+
         // Set the card image
         const cardImageUrl = cardFields['Image Card'];
         if (cardImageUrl) {
